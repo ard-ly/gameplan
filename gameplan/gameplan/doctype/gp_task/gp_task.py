@@ -70,6 +70,7 @@ def get_list(fields=None, filters: dict|None=None, order_by=None, start=0, limit
 	doctype = 'GP Task'
 	check_permissions(doctype, parent)
 	assigned_or_owner = filters.pop('assigned_or_owner', None)
+
 	query = frappe.qb.get_query(
 		table=doctype,
 		fields=fields,
@@ -79,9 +80,16 @@ def get_list(fields=None, filters: dict|None=None, order_by=None, start=0, limit
 		limit=limit,
 		group_by=group_by,
 	)
-	if assigned_or_owner:
-		Task = frappe.qb.DocType(doctype)
-		query = query.where(
-			(Task.assigned_to == assigned_or_owner) | (Task.owner == assigned_or_owner)
-		)
+	# Updated by Omar Jaber
+	# if assigned_or_owner:
+	# 	Task = frappe.qb.DocType(doctype)
+	# 	query = query.where(
+	# 		(Task.assigned_to == assigned_or_owner) | (Task.owner == assigned_or_owner)
+	# 	)
+
+	Task = frappe.qb.DocType(doctype)
+	query = query.where(
+		(Task.assigned_to == frappe.session.user) | (Task.owner == frappe.session.user)
+	)
+
 	return query.run(as_dict=True, debug=debug)

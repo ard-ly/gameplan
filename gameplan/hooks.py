@@ -20,6 +20,11 @@ add_to_apps_screen = [
 	}
 ]
 
+
+permission_query_conditions = {
+    "*":"gameplan.permission_query_condition_creator.get_permission_query_conditions"
+}
+
 # Includes in <head>
 # ------------------
 

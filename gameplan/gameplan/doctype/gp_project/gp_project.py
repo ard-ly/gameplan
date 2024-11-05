@@ -27,9 +27,22 @@ class GPProject(ManageMembersMixin, Archivable, Document):
 				.where(Member.parent == Project.team)
 				.where(Member.user == frappe.session.user)
 		)
-		query = query.where(
-			(Project.is_private == 0) | ((Project.is_private == 1) & ExistsCriterion(member_exists))
+		# Updated by Omar Jaber
+		project_member_exists = (
+			frappe.qb.from_(Member)
+				.select(Member.name)
+				.where(Member.parenttype == 'GP Project')
+				.where(Member.parent == Project.name)
+				.where(Member.user == frappe.session.user)
 		)
+		# Updated by Omar Jaber
+		# query = query.where(
+		# 	(Project.is_private == 0) | ((Project.is_private == 1) & ExistsCriterion(member_exists))
+		# )
+		query = query.where(
+			(Project.is_private == 0) | ((Project.is_private == 1) & ExistsCriterion(member_exists) & ExistsCriterion(project_member_exists))
+		)
+
 		if gameplan.is_guest():
 			GuestAccess = frappe.qb.DocType('GP Guest Access')
 			project_list = GuestAccess.select(GuestAccess.project).where(GuestAccess.user == frappe.session.user)
