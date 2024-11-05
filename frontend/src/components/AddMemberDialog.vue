@@ -3,6 +3,7 @@
     :options="{ title: 'Add members' }"
     @close="resetValues"
     v-model="open"
+
   >
     <template #body-content>
       <ul v-if="membersToAdd.length" class="flex flex-wrap gap-2 py-2">
@@ -19,6 +20,7 @@
           <button
             @click="membersToAdd = membersToAdd.filter((a) => a != user)"
             class="grid h-4 w-4 place-items-center rounded text-gray-800"
+
           >
             <LucideX class="h-4 w-4" />
           </button>
@@ -60,6 +62,7 @@
               class="ml-auto"
               @click="resource.removeMember.submit({ user: member.user })"
               :disabled="resource.removeMember.loading"
+              v-if="$user().role === 'Gameplan Admin'"
             >
               <template #icon>
                 <LucideX class="h-4 w-4" />
