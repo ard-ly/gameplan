@@ -8,6 +8,7 @@ from gameplan.gameplan.doctype.gp_notification.gp_notification import GPNotifica
 from gameplan.mixins.activity import HasActivity
 from gameplan.mixins.mentions import HasMentions
 from gameplan.search import GameplanSearch
+from frappe.utils import cint, getdate, formatdate,get_datetime, get_last_day, add_to_date
 
 
 class GPTask(HasMentions, HasActivity, Document):
@@ -40,6 +41,24 @@ class GPTask(HasMentions, HasActivity, Document):
 					'old_value': prev_doc.get(field),
 					'new_value': self.get(field)
 				})
+			# Updated by Omar Jaber
+			print('***************************')
+			print('***************************')
+			print(self.has_value_changed('status'))
+			print(self.get('status'))
+			print(self.get('name'))
+			print('***************************')
+			print('***************************')
+			if self.has_value_changed('status') and self.get('status')=='Done':
+				frappe.db.set_value("GP Task", self.get('name'), "is_completed", 1)
+				frappe.db.set_value("GP Task", self.get('name'), "completed_at", get_datetime())
+				frappe.db.set_value("GP Task", self.get('name'), "completed_by", self.get('modified_by'))
+			elif self.get('status')!='Done':
+				frappe.db.set_value("GP Task", self.get('name'), "is_completed", 0)
+				frappe.db.set_value("GP Task", self.get('name'), "completed_at", )
+				frappe.db.set_value("GP Task", self.get('name'), "completed_by", )
+
+
 
 	def update_search_index(self):
 		if self.has_value_changed('title') or self.has_value_changed('description'):
