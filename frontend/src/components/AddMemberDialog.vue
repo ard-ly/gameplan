@@ -31,7 +31,9 @@
           placeholder="Add member by name or email"
         >
           <template #prefix="{ option }">
-            <UserAvatar class="mr-2" :user="option.email" size="sm" />
+            <!-- Updated by Omar Jaber -->
+            <!-- <UserAvatar class="mr-2" :user="option.email" size="sm" /> -->
+            <UserAvatar class="mr-2" size="sm" />
           </template>
         </Autocomplete>
         <ErrorMessage class="mt-2" :message="resource.addMembers.error" />
