@@ -47,7 +47,9 @@ export default {
           icon: 'settings',
           label: 'Settings & Members',
           onClick: () => showSettingsDialog(),
-          condition: () => this.$user().isNotGuest,
+          // Updated by Omar Jaber
+          //condition: () => this.$user().isNotGuest,
+          condition: () => this.$user().isNotGuest && this.$user().role=='Gameplan Admin',
         },
         {
           icon: () => h(LucideCreditCard),
