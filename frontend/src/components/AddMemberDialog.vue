@@ -29,6 +29,7 @@
           :options="invitableUsers"
           v-model="selectedUser"
           placeholder="Add member by name or email"
+          v-if="$user().role === 'Gameplan Admin'"
         >
           <template #prefix="{ option }">
             <!-- Updated by Omar Jaber -->

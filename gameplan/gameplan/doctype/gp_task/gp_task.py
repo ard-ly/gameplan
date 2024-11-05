@@ -42,13 +42,6 @@ class GPTask(HasMentions, HasActivity, Document):
 					'new_value': self.get(field)
 				})
 			# Updated by Omar Jaber
-			print('***************************')
-			print('***************************')
-			print(self.has_value_changed('status'))
-			print(self.get('status'))
-			print(self.get('name'))
-			print('***************************')
-			print('***************************')
 			if self.has_value_changed('status') and self.get('status')=='Done':
 				frappe.db.set_value("GP Task", self.get('name'), "is_completed", 1)
 				frappe.db.set_value("GP Task", self.get('name'), "completed_at", get_datetime())
