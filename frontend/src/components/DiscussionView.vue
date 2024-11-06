@@ -47,8 +47,9 @@
               {{ discussion.title }}
             </span>
           </h1>
+          <!-- Updated by Omar Jaber -->
           <Dropdown
-            v-if="!readOnlyMode"
+            v-if="!readOnlyMode && ($user(discussion.owner).name==$user(sessionUser).name)"
             class="ml-auto"
             placement="right"
             :button="{
