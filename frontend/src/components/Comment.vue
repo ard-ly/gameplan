@@ -58,7 +58,7 @@
               label: 'Edit',
               icon: 'edit',
               onClick: () => (comment.editing = true),
-              condition: () => !comment.deleted_at && !readOnlyMode && $isSessionUser(comment.owner),
+              condition: () => !comment.deleted_at && !readOnlyMode && $isSessionUser(comment.owner) || $isSessionUser('Administrator'),
             },
             {
               label: 'Revisions',
@@ -98,7 +98,8 @@
               condition: () =>
                 $isSessionUser(comment.owner) &&
                 comment.deleted_at == null &&
-                !readOnlyMode,
+                !readOnlyMode ||
+                $isSessionUser('Administrator'),
             },
           ]"
         />
