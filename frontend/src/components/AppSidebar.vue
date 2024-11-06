@@ -66,10 +66,12 @@
       </nav>
       <div class="mt-6 flex items-center justify-between px-3">
         <h3 class="text-sm font-medium text-gray-600">Teams</h3>
+        <!-- Updated by Omar Jaber -->
         <Button
           label="Create Team"
           variant="ghost"
           @click="showAddTeamDialog = true"
+          v-if="this.$user().role=='Gameplan Admin'"
         >
           <template #icon><LucidePlus class="h-4 w-4" /></template>
         </Button>
