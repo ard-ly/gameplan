@@ -58,7 +58,7 @@
               label: 'Edit',
               icon: 'edit',
               onClick: () => (comment.editing = true),
-              condition: () => !comment.deleted_at && !readOnlyMode && $isSessionUser(comment.owner) || $isSessionUser('Administrator'),
+              condition: () => !comment.deleted_at && !readOnlyMode && $isSessionUser(comment.owner) || $user().role === 'Gameplan Admin',
             },
             {
               label: 'Revisions',
@@ -99,7 +99,7 @@
                 $isSessionUser(comment.owner) &&
                 comment.deleted_at == null &&
                 !readOnlyMode ||
-                $isSessionUser('Administrator'),
+                $user().role === 'Gameplan Admin',
             },
           ]"
         />
