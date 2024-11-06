@@ -15,6 +15,8 @@ def get_permission_query_conditions(user, doctype):
         return get_project_perm(user, doctype)
     elif doctype == "GP Task":
         return get_task_perm(user, doctype)
+    elif doctype == "GP Discussion":
+        return get_discussion_perm(user, doctype)
 
 
 
@@ -149,4 +151,45 @@ def get_task_perm(user, doctype):
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
    
 
+
+
+def get_discussion_perm(user, doctype):
+    owned_docs = frappe.get_all(doctype,filters={"owner":frappe.session.user})
+
+    # Get documents shared with the user
+    shared_docs = frappe.get_all("DocShare",
+                             filters={"share_doctype": doctype},
+                             or_filters=[{"user": frappe.session.user}, {"user": ""}],
+                             fields=["share_name"])
+
+    allowed_teams = frappe.db.sql_list("select parent from `tabGP Member` where parenttype='GP Team' and user='{0}'".format(frappe.session.user))
+    allowed_projects = frappe.db.sql_list("select parent from `tabGP Member` where parenttype='GP Project' and user='{0}'".format(frappe.session.user))
+    
+    discussions = frappe.get_all(
+        doctype,
+        filters={
+            "team": ["in", allowed_teams],
+            "project": ["in", allowed_projects]
+        },
+        fields=["name"]
+    )
+
+
+    allowed_docs_list = []
+    for owned_doc in owned_docs:
+        allowed_docs_list.append(str(owned_doc.name))
+
+    for shared_doc in shared_docs:
+        allowed_docs_list.append(str(shared_doc.share_name))
+
+    for discussion in discussions:
+        allowed_docs_list.append(str(discussion.name))
+
+
+    if frappe.session.user == "Administrator":
+        return
+
+    allowed_docs_tuple = tuple(allowed_docs_list)
+    return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
+   
 
