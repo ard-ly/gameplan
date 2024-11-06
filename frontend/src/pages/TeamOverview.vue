@@ -17,8 +17,9 @@
             :buttons="[{ label: 'Active' }, { label: 'Archived' }]"
             v-model="activeTab"
           />
+          <!-- Updated by Omar Jaber -->
           <Button
-            v-if="teamProjects.length"
+            v-if="teamProjects.length && this.$user().role=='Gameplan Admin'"
             @click="createNewProjectDialog = true"
             variant="solid"
           >
