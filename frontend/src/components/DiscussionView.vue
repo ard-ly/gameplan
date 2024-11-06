@@ -92,8 +92,9 @@
             </time>
           </div>
           <div class="ml-auto flex space-x-2">
+            <!-- Updated by Omar Jaber -->
             <Button
-              v-if="!readOnlyMode && !editingContent"
+              v-if="!readOnlyMode && !editingContent && ($user(discussion.owner).name==$user(sessionUser).name)"
               variant="ghost"
               @click="editingContent = true"
               label="Edit Post"
