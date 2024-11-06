@@ -31,8 +31,9 @@
 
         <div class="flex items-center space-x-2">
           <TeamMembers :team="team" />
+          <!-- Updated by Omar Jaber -->
           <Dropdown
-            v-if="!team.doc.archived_at"
+            v-if="!team.doc.archived_at && this.$user().role=='Gameplan Admin'"
             placement="left"
             :options="[
               {
