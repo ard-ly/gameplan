@@ -53,7 +53,7 @@
 
           <!-- Updated by Omar Jaber -->
           <Dropdown
-            v-if="$user().isNotGuest && this.$user().role=='Gameplan Admin'" 
+            v-if="$user().isNotGuest && this.$user().role=='Gameplan Admin'"
             placement="left"
             :button="{
               icon: 'more-horizontal',

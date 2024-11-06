@@ -1,11 +1,12 @@
 <template>
   <div class="mt-6">
+    <!-- Updated by Omar Jaber -->
     <ReadmeEditor
       :resource="team"
       fieldname="readme"
       :border="true"
       :collapsible="true"
-      :editable="!team.doc.archived_at"
+      :editable="!team.doc.archived_at && this.$user().role=='Gameplan Admin'"
     />
 
     <div class="mt-8">
