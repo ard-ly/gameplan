@@ -230,7 +230,9 @@ export default {
             name: 'People',
           },
           isActive: /People|PersonProfile/g.test(this.$route.name),
-          condition: () => this.$user().isNotGuest,
+          // Updated by Omar Jaber
+          // condition: () => this.$user().isNotGuest,
+          condition: () => this.$user().isNotGuest && this.$user().role=='Gameplan Admin',
         },
         {
           name: 'Notifications',
