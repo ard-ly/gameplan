@@ -17,6 +17,8 @@ def get_permission_query_conditions(user, doctype):
         return get_task_perm(user, doctype)
     elif doctype == "GP Discussion":
         return get_discussion_perm(user, doctype)
+    elif doctype == "GP Discussion":
+        return get_discussion_perm(user, doctype)
 
 
 

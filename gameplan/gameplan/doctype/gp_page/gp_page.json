@@ -28,6 +28,7 @@
   {
    "fieldname": "project",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Project",
    "options": "GP Project"
   },
@@ -40,6 +41,7 @@
   {
    "fieldname": "user",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "User",
    "options": "User"
   },
@@ -47,6 +49,7 @@
    "fetch_from": "project.team",
    "fieldname": "team",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Team",
    "options": "GP Team",
    "read_only": 1
@@ -54,7 +57,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-06 12:18:02.871772",
+ "modified": "2024-11-06 13:43:43.888917",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Page",
