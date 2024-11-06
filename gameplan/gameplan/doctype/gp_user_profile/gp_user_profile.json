@@ -99,7 +99,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-01-16 13:19:48.202430",
+ "modified": "2024-11-06 10:56:52.870946",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP User Profile",
@@ -131,24 +131,12 @@
    "write": 1
   },
   {
-   "create": 1,
-   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
    "role": "Gameplan Member",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Gameplan Guest",
    "share": 1,
    "write": 1
   }

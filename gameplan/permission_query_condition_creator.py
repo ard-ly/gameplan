@@ -7,12 +7,47 @@ from frappe.utils import getdate, cstr
 
 
 def get_permission_query_conditions(user, doctype):
-    if doctype == "GP Team":
+    if doctype == "GP User Profile":
+        return get_userprofile_perm(user, doctype)
+    elif doctype == "GP Team":
         return get_team_perm(user, doctype)
     elif doctype == "GP Project":
         return get_project_perm(user, doctype)
     elif doctype == "GP Task":
         return get_task_perm(user, doctype)
+
+
+
+def get_userprofile_perm(user, doctype):
+    owned_docs = frappe.get_all(doctype,filters={"owner":frappe.session.user})
+
+    # Get documents shared with the user
+    shared_docs = frappe.get_all("DocShare",
+                             filters={"share_doctype": doctype},
+                             or_filters=[{"user": frappe.session.user}, {"user": ""}],
+                             fields=["share_name"])
+
+    userprofiles = frappe.get_all(doctype,
+                                    filters={"user": frappe.session.user},
+                                    fields=["name"])
+
+    allowed_docs_list = []
+    for owned_doc in owned_docs:
+        allowed_docs_list.append(str(owned_doc.name))
+
+    for shared_doc in shared_docs:
+        allowed_docs_list.append(str(shared_doc.share_name))
+
+    for userprofile in userprofiles:
+        allowed_docs_list.append(str(userprofile.name))
+
+
+    if frappe.session.user == "Administrator":
+        return
+
+    allowed_docs_tuple = tuple(allowed_docs_list)
+    return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
+   
 
 
 
