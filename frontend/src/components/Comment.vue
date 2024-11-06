@@ -43,6 +43,7 @@
             </div>
           </div>
         </div>
+        <!-- Updated by Omar Jaber -->
         <Dropdown
           v-show="!comment.editing"
           class="ml-auto"
@@ -57,7 +58,7 @@
               label: 'Edit',
               icon: 'edit',
               onClick: () => (comment.editing = true),
-              condition: () => !comment.deleted_at && !readOnlyMode,
+              condition: () => !comment.deleted_at && !readOnlyMode && $isSessionUser(comment.owner),
             },
             {
               label: 'Revisions',
