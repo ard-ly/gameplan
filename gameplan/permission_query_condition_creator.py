@@ -49,9 +49,9 @@ def get_userprofile_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
-   
+
 
 
 
@@ -83,7 +83,7 @@ def get_team_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple))
 
 
@@ -116,7 +116,7 @@ def get_project_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
    
                         
@@ -149,7 +149,7 @@ def get_task_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
    
 
@@ -191,7 +191,7 @@ def get_discussion_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
    
 
@@ -240,7 +240,7 @@ def get_page_perm(user, doctype):
     if frappe.session.user == "Administrator":
         return
 
-    allowed_docs_tuple = tuple(allowed_docs_list)
+    allowed_docs_tuple = tuple(str(doc) for doc in allowed_docs_list)
     return "`tab{doctype}`.name in ('{allowed_list}')".format(allowed_list="','".join(allowed_docs_tuple), doctype= doctype)
    
 
