@@ -13,6 +13,7 @@
   "project",
   "column_break_bxhg",
   "assigned_to",
+  "parent_task",
   "idx",
   "comments_count",
   "section_break_enyt",
@@ -142,11 +143,17 @@
   {
    "fieldname": "column_break_olth",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "parent_task",
+   "fieldtype": "Link",
+   "label": "Parent Task",
+   "options": "GP Task"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 11:42:30.798284",
+ "modified": "2024-11-24 11:50:57.936127",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",

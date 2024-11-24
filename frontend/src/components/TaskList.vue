@@ -19,9 +19,11 @@
 
 
           <!-- Updated by Omar Jaber -->
-          <div>{{d}}</div>
           <div
             class="flex h-15 w-full items-center rounded p-2.5 transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+            v-if="
+              d.is_group
+            "
           >
             <div class="w-full">
               <div class="flex min-w-0 items-start">
@@ -115,7 +117,10 @@
               'pointer-events-none':
                 tasks.delete.loading && tasks.delete.params.name === d.name,
             }"
-            style='padding-left:3rem'
+            v-if="
+              !d.is_group
+            "
+            :style="d.parent_task ? 'padding-left:3rem' : ''"
           >
             <div class="w-full">
               <div class="flex min-w-0 items-start">
