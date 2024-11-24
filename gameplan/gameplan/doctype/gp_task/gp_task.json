@@ -8,18 +8,25 @@
  "field_order": [
   "title",
   "description",
+  "section_break_xmlj",
+  "team",
+  "project",
+  "column_break_bxhg",
+  "assigned_to",
+  "idx",
+  "comments_count",
+  "section_break_enyt",
   "start_date",
-  "due_date",
   "status",
   "priority",
+  "column_break_mfby",
+  "due_date",
+  "is_group",
   "is_completed",
+  "section_break_dmat",
   "completed_at",
-  "completed_by",
-  "idx",
-  "project",
-  "team",
-  "assigned_to",
-  "comments_count"
+  "column_break_olth",
+  "completed_by"
  ],
  "fields": [
   {
@@ -105,11 +112,41 @@
    "fieldname": "comments_count",
    "fieldtype": "Int",
    "label": "Comments Count"
+  },
+  {
+   "fieldname": "section_break_xmlj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_bxhg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_enyt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_mfby",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "section_break_dmat",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_olth",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-15 21:01:42.058336",
+ "modified": "2024-11-24 11:42:30.798284",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",

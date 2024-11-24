@@ -121,13 +121,38 @@
               active="bg-white shadow-sm"
               inactive="hover:bg-gray-100"
             >
+
+
               <template v-slot="{ link: project }">
+
+
+                <!-- Updated by Omar Jaber -->
+                <!-- 
+                <button
+                  @click.prevent="
+                    () => {
+                      project.open = !project.open
+                    }
+                  "
+                  class="mr-1 grid h-4 w-4 place-items-center rounded hover:bg-gray-200"
+                >
+                  <ChevronTriangle
+                    class="h-3 w-3 text-gray-500 transition duration-200"
+                    :class="[project.open ? 'rotate-90' : 'rotate-0']"
+                  />
+                </button>
+                -->
+                <!-- Updated by Omar Jaber -->
+
+
                 <span class="inline-flex items-center space-x-2">
-                  <span class="text-sm">{{ project.title }}</span>
+                  <span class="text-sm ">{{ project.title }}</span>
                   <LucideLock v-if="project.is_private" class="h-3 w-3" />
                 </span>
+
               </template>
             </Link>
+
             <div
               class="flex h-7 items-center px-2 text-sm text-gray-600"
               v-if="teamProjects(team.name).length === 0"
