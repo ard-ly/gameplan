@@ -134,6 +134,7 @@
    "default": "0",
    "fieldname": "is_group",
    "fieldtype": "Check",
+   "in_standard_filter": 1,
    "label": "Is Group"
   },
   {
@@ -153,7 +154,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 11:50:57.936127",
+ "modified": "2024-11-24 11:55:36.427998",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",
