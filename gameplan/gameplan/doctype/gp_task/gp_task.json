@@ -148,13 +148,14 @@
   {
    "fieldname": "parent_task",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Parent Task",
    "options": "GP Task"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 11:55:36.427998",
+ "modified": "2024-11-24 11:56:35.363728",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",
