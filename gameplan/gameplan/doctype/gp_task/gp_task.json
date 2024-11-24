@@ -150,12 +150,13 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Parent Task",
+   "link_filters": "[[\"GP Task\",\"is_group\",\"=\",1]]",
    "options": "GP Task"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 11:56:35.363728",
+ "modified": "2024-11-24 11:57:42.779222",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",
