@@ -41,8 +41,10 @@
             placeholder="Set due date"
             v-model="newTask.due_date"
           />
+          <!-- Updated by Omar Jaber -->
           <Autocomplete
             placeholder="Assign a user"
+            v-model="newTask.assigned_to"
             :options="assignableUsers"
             :value="newTask.assigned_to"
             @change="(option) => (newTask.assigned_to = option?.value || '')"
@@ -119,6 +121,12 @@ function show({ defaults, onSuccess } = {}) {
 }
 
 function onCreateClick(close) {
+  // Updated by Omar Jaber
+  // Make sure assigned_to is just the email (value)
+  if (newTask.value.assigned_to && typeof newTask.value.assigned_to === 'object') {
+    newTask.value.assigned_to = newTask.value.assigned_to.value; // Ensure it only contains the email (value)
+  }
+
   createTask
     .submit(newTask.value, {
       validate() {
