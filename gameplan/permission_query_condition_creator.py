@@ -145,6 +145,11 @@ def get_task_perm(user, doctype):
     for member in members:
         allowed_docs_list.append(str(member.name))
 
+    for task in allowed_docs_list:
+        if task:
+            group_task = frappe.db.get_value("GP Task", task, "parent_task")
+            if group_task:
+                allowed_docs_list.append(str(group_task))
 
     if frappe.session.user == "Administrator":
         return
