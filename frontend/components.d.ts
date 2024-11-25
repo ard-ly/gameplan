@@ -93,6 +93,7 @@ declare module 'vue' {
     TaskDetail: typeof import('./src/components/TaskDetail.vue')['default']
     TaskList: typeof import('./src/components/TaskList.vue')['default']
     'TaskList(before main task)': typeof import('./src/components/TaskList(before main task).vue')['default']
+    'TaskList#1': typeof import('./src/components/TaskList#1.vue')['default']
     TaskPriorityIcon: typeof import('./src/components/icons/TaskPriorityIcon.vue')['default']
     TaskStatusIcon: typeof import('./src/components/icons/TaskStatusIcon.vue')['default']
     TeamMembers: typeof import('./src/components/TeamMembers.vue')['default']
