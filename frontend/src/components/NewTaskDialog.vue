@@ -70,8 +70,7 @@
         <!-- Updated by Omar Jaber -->
         <div class="flex space-x-2">
           
-
-          <!-- Checkbox -->
+          <!-- Is Group Checkbox -->
           <label class="flex items-center space-x-1">
             <input 
               type="checkbox" 
@@ -81,6 +80,14 @@
             />
             <span>Group Task</span>
           </label>
+
+          <!-- Parent Group Task -->
+          <Autocomplete
+            placeholder="Parent Task"
+            v-model="newTask.parent_task"
+            :options="GroupTasks"
+            @change="(option) => (newTask.parent_task = option?.value || '')"
+          />
 
 
         </div>
@@ -103,6 +110,7 @@ import {
 import TaskStatusIcon from './icons/TaskStatusIcon.vue'
 import TaskPriorityIcon from './icons/TaskPriorityIcon.vue'
 import { activeUsers } from '@/data/users'
+import { activeGroupTasks } from '@/data/group_tasks'
 
 const props = defineProps(['modelValue', 'defaults'])
 const emit = defineEmits(['update:modelValue'])
@@ -163,6 +171,15 @@ const assignableUsers = computed(() => {
     }))
 })
 
+
+const GroupTasks = computed(() => {
+  return activeGroupTasks.value.map((task) => ({
+    label: task.label,
+    value: task.value,
+  }));
+})
+
+
 let _onSuccess
 function show({ defaults, onSuccess } = {}) {
   newTask.value = { ...initialData, ...(defaults || {}) }
@@ -171,10 +188,16 @@ function show({ defaults, onSuccess } = {}) {
 }
 
 function onCreateClick(close) {
+
   // Updated by Omar Jaber
   // Make sure assigned_to is just the email (value)
   if (newTask.value.assigned_to && typeof newTask.value.assigned_to === 'object') {
     newTask.value.assigned_to = newTask.value.assigned_to.value; // Ensure it only contains the email (value)
+  }
+
+  // Make sure parent_task is just the name (value)
+  if (newTask.value.parent_task && typeof newTask.value.parent_task === 'object') {
+    newTask.value.parent_task = newTask.value.parent_task.value; // Ensure it only contains the email (value)
   }
   
   console.log('*********')
