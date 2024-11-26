@@ -37,6 +37,21 @@
             </Button>
           </Dropdown>
 
+          <Dropdown
+            :options="
+              priorityOptions({
+                onClick: (priority) => (newTask.priority = priority),
+              })
+            "
+          >
+            <Button>
+              <template #prefix>
+                <TaskPriorityIcon :priority="newTask.priority" />
+              </template>
+              {{ newTask.priority }}
+            </Button>
+          </Dropdown>
+
           <TextInput
             type="date"
             placeholder="Set due date"
@@ -52,22 +67,22 @@
           />
         </div>
 
-        {{console.log(newTask)}}
+        <!-- Updated by Omar Jaber -->
         <div class="flex space-x-2">
-          <Dropdown
-            :options="
-              priorityOptions({
-                onClick: (priority) => (newTask.priority = priority),
-              })
-            "
-          >
-            <Button>
-              <template #prefix>
-                <TaskPriorityIcon :priority="newTask.priority" />
-              </template>
-              {{ newTask.priority }}
-            </Button>
-          </Dropdown>
+          
+
+          <!-- Checkbox -->
+          <label class="flex items-center space-x-1">
+            <input 
+              type="checkbox" 
+              :checked="newTask.is_group === 1" 
+              @click="() => newTask.is_group = newTask.is_group === 1 ? 0 : 1"
+              class="form-checkbox"
+            />
+            <span>Group Task</span>
+          </label>
+
+
         </div>
 
         <ErrorMessage class="mt-2" :message="createTask.error" />
@@ -108,6 +123,7 @@ const initialData = {
   description: '',
   status: 'Backlog',
   priority: 'Low',
+  is_group: 0,
   assigned_to: null,
   project: null,
 }
