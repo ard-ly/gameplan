@@ -43,6 +43,7 @@ class GPTeam(Archivable, Document):
 			query = query.where(Team.name.isin(team_list))
 		return query
 
+
 	def before_insert(self):
 		if not self.name:
 			slug = frappe.scrub(self.title).replace("_", "-")
@@ -80,3 +81,23 @@ class GPTeam(Archivable, Document):
 				self.remove(member)
 				self.save()
 				break
+
+
+
+@frappe.whitelist()
+def get_teams():
+    Team = frappe.qb.DocType('GP Team')
+    Member = frappe.qb.DocType('GP Member')
+    member_exists = (
+        frappe.qb.from_(Member)
+            .select(Member.name)
+            .where(Member.parenttype == 'GP Team')
+            .where(Member.parent == Team.name)
+            .where(Member.user == frappe.session.user)
+    )
+    query = frappe.qb.from_(Team).select(Team.name).where(
+        (Team.is_private == 0) | ((Team.is_private == 1) & ExistsCriterion(member_exists))
+    )
+
+    teams = query.run(as_dict=True)
+    return teams
