@@ -115,7 +115,8 @@
                     <div
                       class="h-2 w-2 rounded-full"
                       :class="{
-                        'bg-red-400': d.priority === 'High',
+                        'bg-red-800': d.priority === 'Urgent',
+                        'bg-orange-500': d.priority === 'High',
                         'bg-yellow-500': d.priority === 'Medium',
                         'bg-gray-300': d.priority === 'Low',
                       }"
@@ -260,7 +261,8 @@
                     <div
                       class="h-2 w-2 rounded-full"
                       :class="{
-                        'bg-red-400': d.priority === 'High',
+                        'bg-red-800': d.priority === 'Urgent',
+                        'bg-orange-500': d.priority === 'High',
                         'bg-yellow-500': d.priority === 'Medium',
                         'bg-gray-300': d.priority === 'Low',
                       }"

@@ -279,7 +279,7 @@ export default {
       )
     },
     priorityOptions() {
-      return ['Low', 'Medium', 'High'].map((priority) => {
+      return ['Low', 'Medium', 'High', 'Urgent'].map((priority) => {
         return {
           icon: () => h(TaskPriorityIcon, { priority }),
           label: priority,

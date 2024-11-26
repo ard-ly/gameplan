@@ -3,7 +3,8 @@
     <div
       class="h-3 w-3 rounded-full"
       :class="{
-        'bg-red-500': priority === 'High',
+        'bg-red-800': priority === 'Urgent',
+        'bg-orange-500': priority === 'High',
         'bg-yellow-500': priority === 'Medium',
         'bg-gray-300': priority === 'Low',
       }"

@@ -36,6 +36,7 @@
               {{ newTask.status }}
             </Button>
           </Dropdown>
+
           <TextInput
             type="date"
             placeholder="Set due date"
@@ -50,6 +51,25 @@
             @change="(option) => (newTask.assigned_to = option?.value || '')"
           />
         </div>
+
+        {{console.log(newTask)}}
+        <div class="flex space-x-2">
+          <Dropdown
+            :options="
+              priorityOptions({
+                onClick: (priority) => (newTask.priority = priority),
+              })
+            "
+          >
+            <Button>
+              <template #prefix>
+                <TaskPriorityIcon :priority="newTask.priority" />
+              </template>
+              {{ newTask.priority }}
+            </Button>
+          </Dropdown>
+        </div>
+
         <ErrorMessage class="mt-2" :message="createTask.error" />
       </div>
     </template>
@@ -66,6 +86,7 @@ import {
   createResource,
 } from 'frappe-ui'
 import TaskStatusIcon from './icons/TaskStatusIcon.vue'
+import TaskPriorityIcon from './icons/TaskPriorityIcon.vue'
 import { activeUsers } from '@/data/users'
 
 const props = defineProps(['modelValue', 'defaults'])
@@ -86,6 +107,7 @@ const initialData = {
   title: '',
   description: '',
   status: 'Backlog',
+  priority: 'Low',
   assigned_to: null,
   project: null,
 }
@@ -99,6 +121,18 @@ function statusOptions({ onClick }) {
         icon: () => h(TaskStatusIcon, { status }),
         label: status,
         onClick: () => onClick(status),
+      }
+    },
+  )
+}
+
+function priorityOptions({ onClick }) {
+  return ['Low', 'Medium', 'High', 'Urgent'].map(
+    (priority) => {
+      return {
+        icon: () => h(TaskPriorityIcon, { priority }),
+        label: priority,
+        onClick: () => onClick(priority),
       }
     },
   )
