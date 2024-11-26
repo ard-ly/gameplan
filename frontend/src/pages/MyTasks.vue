@@ -7,7 +7,8 @@
         class="h-7"
         :items="[{ label: 'My Tasks', route: { name: 'MyTasks' } }]"
       />
-      <Button variant="solid" @click="showNewTaskDialog">
+      <!-- Updated by Omar Jaber -->
+      <Button variant="solid" @click="showNewTaskDialog" class="hidden">
         <template #prefix>
           <LucidePlus class="h-4 w-4" />
         </template>
