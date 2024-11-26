@@ -150,9 +150,7 @@
 
         <!-- Updated by Omar Jaber -->
         
-        
         <div v-for="(d, index) in group.child_tasks" :key="d.name">
-          
           <div>
 
           <div
