@@ -413,8 +413,35 @@ export default {
         const nonGroupTasks = [];
 
         tasksInStatus.forEach(task => {
-          console.log('task: '+task.parent_task_title)
+          const parentTaskId = task.parent_task;
 
+          if (task.is_group) {
+              // Initialize the group task
+             groupedByParent[task.name] = groupedByParent[task.name] || {
+                title: 'task.title',
+                tasks: [],
+            };
+          }
+
+          if (parentTaskId) {
+              // Check if the parent task exists in the group
+              if (!groupedByParent[parentTaskId]) {
+                  // Find the parent task to retrieve its title
+                  const parentTask = tasksInStatus.find(t => t.name === parentTaskId);
+
+                  // Initialize the parent task group if not already present
+                  groupedByParent[parentTaskId] = {
+                      title: task.title, // Use this task's title for initialization
+                      tasks: [],
+                  };
+              }
+
+              // Add the task to its parent group
+              groupedByParent[parentTaskId].tasks.push(task);
+          } else {
+              // Add non-group tasks (tasks without parent_task) directly to their status
+              nonGroupTasks.push(task);
+          }
 
         });
 

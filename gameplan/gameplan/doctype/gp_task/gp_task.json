@@ -14,7 +14,6 @@
   "column_break_bxhg",
   "assigned_to",
   "parent_task",
-  "parent_task_title",
   "idx",
   "comments_count",
   "section_break_enyt",
@@ -153,17 +152,11 @@
    "label": "Parent Task",
    "link_filters": "[[\"GP Task\",\"is_group\",\"=\",1]]",
    "options": "GP Task"
-  },
-  {
-   "fieldname": "parent_task_title",
-   "fieldtype": "Data",
-   "label": "Parent Task Title",
-   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-27 12:58:57.276059",
+ "modified": "2024-11-27 13:09:15.627638",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Task",
