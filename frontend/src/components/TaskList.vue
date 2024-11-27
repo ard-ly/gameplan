@@ -405,22 +405,33 @@ export default {
 
       const statuses = ['In Progress', 'Todo', 'Backlog', 'Done', 'Canceled'];
       const groupedTasks = [];
+      const allGroupTasks = {}; // Store all group tasks globally across statuses
+
+      // Preprocess all group tasks
+      this.tasks.data.forEach(task => {
+        if (task.is_group) {
+          allGroupTasks[task.name] = {
+            id: task.name,
+            title: task.title
+          };
+        }
+      });
+
 
       // Group tasks by statuses
       statuses.forEach(status => {
         const tasksInStatus = this.tasksByStatus?.[status] || [];
         const groupedByParent = {};
         const nonGroupTasks = [];
-        const groupTasks = [];  // To store group tasks with their titles
 
         // Update groupTasks with each group task, where task.name is the key and value is an object containing task details
         tasksInStatus.forEach(task => {
           if (task.is_group) {
-            // Add group task details (id and title) directly to the groupTasks array
-            groupTasks.push({
-              id: task.name,
-              title: task.title
-            });
+            // Initialize the group task
+            groupedByParent[task.name] = groupedByParent[task.name] || {
+              title: task.title,
+              tasks: []
+            };
           }
         });
 
@@ -435,16 +446,16 @@ export default {
             };
           }
 
+
           if (parentTaskId) {
             // Check if the parent task exists in the group
             if (!groupedByParent[parentTaskId]) {
               // Check if this parent task is a group task, then use its title
-              const groupTitle = groupTasks.find(group => group.id == parentTaskId)?.title || 'Unknown Parent';
-
+              const parentGroup = allGroupTasks[parentTaskId];
 
               // Initialize the parent task group if not already present
               groupedByParent[parentTaskId] = {
-                title: groupTitle, // Use parent task title
+                title: parentGroup?.title || 'Unknown Parent',
                 tasks: [],
               };
             }
