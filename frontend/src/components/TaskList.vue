@@ -435,6 +435,7 @@ export default {
           }
         });
 
+
         tasksInStatus.forEach(task => {
           const parentTaskId = task.parent_task;
 
