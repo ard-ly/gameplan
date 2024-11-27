@@ -413,23 +413,40 @@ export default {
         const nonGroupTasks = [];
 
         tasksInStatus.forEach(task => {
-          if (task.is_group) {
-            // Initialize the group task
-            groupedByParent[task.name] = {
-              title: task.title,
-              tasks: [],
-            };
-          } else {
-            // Add non-group tasks directly to their status
-            nonGroupTasks.push(task);
+          const parentTaskId = task.parent_task;
 
-            // Assign the child task to its parent group (if parent exists)
-            const parentTaskId = task.parent_task;
-            if (parentTaskId && groupedByParent[parentTaskId]) {
-              groupedByParent[parentTaskId].tasks.push(task);
-            }
+          if (task.is_group) {
+              // Initialize the group task
+             groupedByParent[task.name] = groupedByParent[task.name] || {
+                title: 'task.title',
+                tasks: [],
+            };
           }
+
+          if (parentTaskId) {
+              // Check if the parent task exists in the group
+              if (!groupedByParent[parentTaskId]) {
+                  // Find the parent task to retrieve its title
+                  const parentTask = tasksInStatus.find(t => t.name === parentTaskId);
+
+                  // Initialize the parent task group if not already present
+                  groupedByParent[parentTaskId] = {
+                      title: task.title, // Use this task's title for initialization
+                      tasks: [],
+                  };
+              }
+
+              // Add the task to its parent group
+              groupedByParent[parentTaskId].tasks.push(task);
+          } else {
+              // Add non-group tasks (tasks without parent_task) directly to their status
+              nonGroupTasks.push(task);
+          }
+
         });
+
+
+
 
         // Move parent tasks to child task statuses if they have no children in the current status
         Object.keys(groupedByParent).forEach(parentTaskId => {
@@ -459,6 +476,7 @@ export default {
             });
           }
         });
+
 
         // Add the status group
         groupedTasks.push({
