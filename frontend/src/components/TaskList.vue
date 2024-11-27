@@ -411,78 +411,60 @@ export default {
         const tasksInStatus = this.tasksByStatus?.[status] || [];
         const groupedByParent = {};
         const nonGroupTasks = [];
+        const groupTasks = [];  // To store group tasks with their titles
+
+        // Update groupTasks with each group task, where task.name is the key and value is an object containing task details
+        tasksInStatus.forEach(task => {
+          if (task.is_group) {
+            // Add group task details (id and title) directly to the groupTasks array
+            groupTasks.push({
+              id: task.name,
+              title: task.title
+            });
+          }
+        });
 
         tasksInStatus.forEach(task => {
           const parentTaskId = task.parent_task;
 
           if (task.is_group) {
-              // Initialize the group task
-             groupedByParent[task.name] = groupedByParent[task.name] || {
-                title: 'task.title',
-                tasks: [],
+            // Initialize the group task and add it as a parent task
+            groupedByParent[task.name] = groupedByParent[task.name] || {
+              title: task.title, // Use the group's own title
+              tasks: [],
             };
           }
 
           if (parentTaskId) {
-              // Check if the parent task exists in the group
-              if (!groupedByParent[parentTaskId]) {
-                  // Find the parent task to retrieve its title
-                  const parentTask = tasksInStatus.find(t => t.name === parentTaskId);
-
-                  // Initialize the parent task group if not already present
-                  groupedByParent[parentTaskId] = {
-                      title: task.title, // Use this task's title for initialization
-                      tasks: [],
-                  };
-              }
-
-              // Add the task to its parent group
-              groupedByParent[parentTaskId].tasks.push(task);
-          } else {
-              // Add non-group tasks (tasks without parent_task) directly to their status
-              nonGroupTasks.push(task);
-          }
-
-        });
+            // Check if the parent task exists in the group
+            if (!groupedByParent[parentTaskId]) {
+              // Check if this parent task is a group task, then use its title
+              const groupTitle = groupTasks.find(group => group.id == parentTaskId)?.title || 'Unknown Parent';
 
 
+              // Initialize the parent task group if not already present
+              groupedByParent[parentTaskId] = {
+                title: groupTitle, // Use parent task title
+                tasks: [],
+              };
+            }
 
+            // Add the task to its parent group
+            groupedByParent[parentTaskId].tasks.push(task);
 
-        // Move parent tasks to child task statuses if they have no children in the current status
-        Object.keys(groupedByParent).forEach(parentTaskId => {
-          const group = groupedByParent[parentTaskId];
-          if (group.tasks.length === 0) {
-            // Find all child tasks belonging to this group across statuses
-            const allChildTasks = this.tasks.data.filter(
-              task => task.parent_task === parentTaskId && !task.is_group
-            );
-
-            allChildTasks.forEach(childTask => {
-              const childStatus = childTask.status; // Get the status of the child task
-              const childStatusGroup = groupedTasks.find(g => g.id === childStatus);
-
-              if (childStatusGroup) {
-                // Ensure the parent group exists in the child's status
-                const existingGroup = childStatusGroup.child_tasks.find(g => g.title === group.title);
-                if (!existingGroup) {
-                  childStatusGroup.child_tasks.push({
-                    title: group.title,
-                    tasks: [childTask],
-                  });
-                } else {
-                  existingGroup.tasks.push(childTask);
-                }
-              }
-            });
+            // Add non-group tasks Also to show length and show the status
+            nonGroupTasks.push(task);
+          } else if(!task.is_group){
+            // Add non-group tasks (tasks without parent_task) directly to their status
+            nonGroupTasks.push(task);
           }
         });
-
 
         // Add the status group
         groupedTasks.push({
           id: status,
           title: status,
-          tasks: nonGroupTasks.filter(task => !task.is_group), // Only non-child tasks here
+          tasks: nonGroupTasks, // Only non-group tasks here
           child_tasks: Object.values(groupedByParent).filter(group => group.tasks.length > 0), // Groups with children in this status
         });
       });
