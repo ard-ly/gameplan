@@ -179,9 +179,9 @@
         </div>
 
         <!-- Updated by Omar Jaber -->
-        <div>Parent Task</div>
+        <div v-if="$resources.task.doc.is_group !== 1">Parent Task</div>
 
-        <div>
+        <div v-if="$resources.task.doc.is_group !== 1">
           <!-- Parent Group Task -->
           <Autocomplete
             placeholder="Parent Task"
@@ -189,6 +189,21 @@
             v-model="$resources.task.doc.parent_task"
             @update:modelValue="changeParentTask"
           />
+        </div>
+
+        <!-- Updated by Omar Jaber -->
+        <div>Is Group Task</div>
+
+        <div>
+          <!-- Is Group Checkbox  -->
+          <label class="flex items-center space-x-1">
+            <input 
+              type="checkbox" 
+              :checked="$resources.task.doc.is_group === 1"
+              @change="changeIsGroupTask($event)"
+              class="form-checkbox"
+            />
+          </label>
         </div>
 
 
@@ -255,6 +270,22 @@ export default {
       this.$resources.task.setValue.submit(
         {
           parent_task: option?.value || '',
+          is_group: 0
+        },
+        {
+          onSuccess() {
+            this.updateRoute()
+          },
+        },
+      )
+    },
+    changeIsGroupTask(event) {
+      const isGroup = event.target.checked ? 1 : 0;
+
+      this.$resources.task.setValue.submit(
+        {
+          is_group: isGroup,
+          parent_task: null,
         },
         {
           onSuccess() {
