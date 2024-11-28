@@ -71,7 +71,7 @@
         <div class="flex space-x-2">
           
           <!-- Is Group Checkbox -->
-          <label class="flex items-center space-x-1">
+          <label class="flex items-center space-x-1" v-if="!newTask.parent_task">
             <input 
               type="checkbox" 
               :checked="newTask.is_group === 1" 
