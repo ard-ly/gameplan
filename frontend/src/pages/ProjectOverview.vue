@@ -21,15 +21,28 @@
             <h2 class="text-xl font-semibold">Tasks</h2>
             <Button :route="{ name: 'ProjectTasks' }">View all</Button>
           </div>
-          <TaskList
+
+          <!-- Updated by Omar Jaber -->
+          <!--  <TaskList
             :listOptions="{
               filters: {
                 project: project.doc.name,
                 status: ['in', ['Backlog', 'Todo', 'In Progress']],
               },
-              pageLength: 4,
+              pageLength: 5,
+            }"
+          /> -->
+
+          <TaskList
+            :listOptions="{
+              filters: {
+                project: project.doc.name,
+                status: ['in', ['Backlog', 'Todo', 'In Progress']],
+              }
             }"
           />
+
+
         </div>
         <div class="sm:rounded sm:border sm:px-4 sm:py-3">
           <div class="mb-3 flex items-center justify-between">

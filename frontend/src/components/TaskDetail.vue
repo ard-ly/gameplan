@@ -177,6 +177,22 @@
             </Button>
           </Dropdown>
         </div>
+
+        <!-- Updated by Omar Jaber -->
+        <div>Priority</div>
+        <div>
+          <Dropdown :options="priorityOptions">
+            <Button>
+              <template v-if="$resources.task.doc.priority" #prefix>
+                <TaskPriorityIcon :priority="$resources.task.doc.priority" />
+              </template>
+              {{ $resources.task.doc.priority || 'Set priority' }}
+            </Button>
+          </Dropdown>
+        </div>
+
+
+        
       </div>
     </div>
   </div>
