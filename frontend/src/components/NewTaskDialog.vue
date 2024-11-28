@@ -75,7 +75,7 @@
             <input 
               type="checkbox" 
               :checked="newTask.is_group === 1" 
-              @click="() => newTask.is_group = newTask.is_group === 1 ? 0 : 1"
+              @click="toggleIsGroupTask"
               class="form-checkbox"
             />
             <span>Is Group Task</span>
@@ -84,6 +84,7 @@
           <!-- Parent Group Task -->
           <Autocomplete
             placeholder="Parent Task"
+            v-if="newTask.is_group !== 1"
             v-model="newTask.parent_task"
             :options="GroupTasks"
             @change="(option) => (newTask.parent_task = option?.value || '')"
@@ -188,7 +189,6 @@ function show({ defaults, onSuccess } = {}) {
 }
 
 function onCreateClick(close) {
-
   // Updated by Omar Jaber
   // Make sure assigned_to is just the email (value)
   if (newTask.value.assigned_to && typeof newTask.value.assigned_to === 'object') {
@@ -216,6 +216,18 @@ function onCreateClick(close) {
     })
     .then(close())
 }
+
+
+function toggleIsGroupTask() {
+  // Toggle the 'is_group' value
+  newTask.value.is_group = newTask.value.is_group === 1 ? 0 : 1;
+
+  // If 'is_group' is 1, reset 'parent_task'
+  if (newTask.value.is_group === 1) {
+    newTask.value.parent_task = '';  // Clear the parent_task value
+  }
+}
+
 
 defineExpose({ show })
 </script>
