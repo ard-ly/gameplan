@@ -78,7 +78,7 @@
               @click="() => newTask.is_group = newTask.is_group === 1 ? 0 : 1"
               class="form-checkbox"
             />
-            <span>Group Task</span>
+            <span>Is Group Task</span>
           </label>
 
           <!-- Parent Group Task -->

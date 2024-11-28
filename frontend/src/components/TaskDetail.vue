@@ -179,20 +179,20 @@
         </div>
 
         <!-- Updated by Omar Jaber -->
-        <div>Priority</div>
+        <div>Parent Task</div>
+
         <div>
-          <Dropdown :options="priorityOptions">
-            <Button>
-              <template v-if="$resources.task.doc.priority" #prefix>
-                <TaskPriorityIcon :priority="$resources.task.doc.priority" />
-              </template>
-              {{ $resources.task.doc.priority || 'Set priority' }}
-            </Button>
-          </Dropdown>
+          <!-- Parent Group Task -->
+          <Autocomplete
+            placeholder="Parent Task"
+            :options="GroupTasks"
+            v-model="$resources.task.doc.parent_task"
+            @update:modelValue="changeParentTask"
+          />
         </div>
 
 
-        
+
       </div>
     </div>
   </div>
@@ -210,6 +210,7 @@ import TaskPriorityIcon from '@/components/icons/TaskPriorityIcon.vue'
 import { activeUsers } from '@/data/users'
 import { activeTeams } from '@/data/teams'
 import { getTeamProjects } from '@/data/projects'
+import { activeGroupTasks } from '@/data/group_tasks'
 
 export default {
   name: 'TaskDetail',
@@ -249,6 +250,18 @@ export default {
   methods: {
     changeAssignee(option) {
       this.$resources.task.setValue.submit({ assigned_to: option?.value || '' })
+    },
+    changeParentTask(option) {
+      this.$resources.task.setValue.submit(
+        {
+          parent_task: option?.value || '',
+        },
+        {
+          onSuccess() {
+            this.updateRoute()
+          },
+        },
+      )
     },
     changeProject(option) {
       this.$resources.task.setValue.submit(
@@ -312,6 +325,19 @@ export default {
         })),
       }))
     },
+    GroupTasks() {
+      const parentTask = this.$resources.task.doc.parent_task;
+      return activeGroupTasks.value
+        .map((task) => ({
+          label: task.label,
+          value: task.value.toString(),
+        }));
+    },
+    currentTaskGroup() {
+      const parentTask = this.$resources.task.doc.parent_task;
+      return parentTask
+    },
+
   },
   components: {
     ReadmeEditor,
