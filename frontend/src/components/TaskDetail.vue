@@ -151,7 +151,7 @@
           <Autocomplete
             placeholder="Select project"
             :options="projectOptions"
-            v-model="$resources.task.doc.project"
+            v-model="projectVal"
             @update:modelValue="changeProject"
           />
         </div>
@@ -186,7 +186,7 @@
           <Autocomplete
             placeholder="Parent Task"
             :options="GroupTasks"
-            v-model="$resources.task.doc.parent_task"
+            v-model="parentTaskVal"
             @update:modelValue="changeParentTask"
           />
         </div>
@@ -321,6 +321,22 @@ export default {
     },
   },
   computed: {
+    parentTaskVal: {
+      get() {
+        return String(this.$resources.task.doc.parent_task || '');
+      },
+      set(value) {
+        this.$resources.task.setValue.submit({ parent_task: value });
+      },
+    },
+    projectVal: {
+      get() {
+        return String(this.$resources.task.doc.project || '');
+      },
+      set(value) {
+        this.$resources.task.setValue.submit({ project: value });
+      },
+    },
     assignableUsers() {
       return activeUsers.value.map((user) => ({
         label: user.full_name,
