@@ -290,6 +290,7 @@ export default {
         {
           onSuccess() {
             this.updateRoute()
+            window.location.reload(); // Refresh the page
           },
         },
       )
