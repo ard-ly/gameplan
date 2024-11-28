@@ -179,9 +179,9 @@
         </div>
 
         <!-- Updated by Omar Jaber -->
-        <div v-if="$resources.task.doc.is_group !== 1">Parent Task</div>
+        <div>Parent Task</div>
 
-        <div v-if="$resources.task.doc.is_group !== 1">
+        <div>
           <!-- Parent Group Task -->
           <Autocomplete
             placeholder="Parent Task"
@@ -357,18 +357,23 @@ export default {
       }))
     },
     GroupTasks() {
-      const parentTask = this.$resources.task.doc.parent_task;
+      // Check if the current task is a group task
+      if (this.$resources.task.doc.is_group == 1) {
+        return activeGroupTasks.value
+          .filter((task) => task.value.toString() !== String(this.$resources.task.doc.name)) // Exclude current task by name
+          .map((task) => ({
+            label: task.label,
+            value: task.value.toString(),
+          }));
+      }
+
+      // Return all tasks if not a group task
       return activeGroupTasks.value
         .map((task) => ({
           label: task.label,
           value: task.value.toString(),
         }));
-    },
-    currentTaskGroup() {
-      const parentTask = this.$resources.task.doc.parent_task;
-      return parentTask
-    },
-
+    }
   },
   components: {
     ReadmeEditor,
