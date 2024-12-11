@@ -152,19 +152,28 @@
         
         <div v-for="(d, index) in group.child_tasks" :key="d.name">
           <div>
+            <div
+              class="flex w-full items-center rounded p-2.5 transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
+              >
+              <div class="w-full">
+                <div class="flex min-w-0 items-start">
+                  <div
+                    class="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium leading-4 text-gray-900" style="width:15%"
+                  >
+                    {{ d.title }}
+                  </div>
 
-          <div
-            class="flex w-full items-center rounded p-2.5 transition hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400"
-            >
-            <div class="w-full">
-              <div class="flex min-w-0 items-start">
-                <div
-                  class="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium leading-4 text-gray-900"
-                >
-                  {{ d.title }}
+                  <!-- progress bra start -->
+                  <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
+                      40% Complete
+                    </div>
+                  </div>
+                  <!-- progress bra ends -->
+
                 </div>
               </div>
-            </div>
           </div>
           <!-- Updated by Omar Jaber -->
 
@@ -526,3 +535,50 @@ export default {
   },
 }
 </script>
+
+
+<style scoped>
+  /* Progress Bar Container */
+  .progress {
+    height: 1.2rem; /* Height of the progress bar */
+    background-color: #f3f3f3; /* Background color */
+    border-radius: 0.25rem; /* Rounded corners */
+    width: 100%; /* Full width */
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    display: flex;
+    height: 100%; /* Full height of the container */
+    transition: width 0.6s ease; /* Smooth transition for width */
+    text-align: center;
+    white-space: nowrap;
+    color: #fff; /* Text color inside the bar */
+    font-size: 0.875rem; /* Text size inside the bar */
+    line-height: 1.5rem; /* Text alignment in the bar */
+    background-color: #28a745; /* Default color, green */
+    border-radius: 0.25rem;
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  /* Success (Green) for progress-bar-success */
+  .progress-bar-success {
+    background-color: #28a745; /* Bootstrap success color */
+  }
+
+  /* Striped effect for progress-bar-striped */
+  .progress-bar-striped {
+    background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+    background-size: 40px 40px; /* Stripe size */
+    animation: progress-bar-stripes 1s linear infinite; /* Animation for stripes */
+  }
+
+  /* Animation for stripes */
+  @keyframes progress-bar-stripes {
+    0% { background-position: 40px 0; }
+    100% { background-position: 0 0; }
+  }
+
+</style>
+
