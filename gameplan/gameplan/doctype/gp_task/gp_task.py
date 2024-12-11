@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import frappe
+from frappe import _
 from frappe.model.document import Document
 from gameplan.extends.client import check_permissions
 from gameplan.gameplan.doctype.gp_notification.gp_notification import GPNotification
@@ -29,6 +30,7 @@ class GPTask(HasMentions, HasActivity, Document):
         self.notify_mentions()
         self.log_value_updates()
         self.update_search_index()
+        self.validate_finished_group()
 
     def log_value_updates(self):
         fields = ['title', 'description', 'status', 'priority', 'assigned_to', 'due_date', 'project']
@@ -72,6 +74,45 @@ class GPTask(HasMentions, HasActivity, Document):
     def update_project_progress(self):
         if self.project and self.has_value_changed("is_completed"):
             frappe.get_doc("GP Project", self.project).update_progress()
+
+    def validate_finished_group(self):
+        if self.is_group and self.status=='Done':
+            child_tasks = frappe.get_all(
+                "GP Task",
+                filters={"parent_task": self.name},
+                fields=["name", "status"]
+            )
+
+            if all(task["status"] == "Done" for task in child_tasks):
+                frappe.db.set_value("GP Task", self.get('name'), "status", "Done")
+                frappe.db.set_value("GP Task", self.get('name'), "is_completed", 1)
+                self.reload()
+            else:
+                frappe.db.set_value("GP Task", self.get('name'), "status", "Todo")
+                frappe.db.set_value("GP Task", self.get('name'), "is_completed", 0)
+                frappe.msgprint(_("Not all child tasks are completed."))
+                self.reload()
+
+        if self.parent_task:
+            self.update_parent_status(self.parent_task)
+
+
+    def update_parent_status(self, parent_task_name):
+        child_tasks = frappe.get_all(
+            "GP Task",
+            filters={"parent_task": parent_task_name},
+            fields=["name", "status"]
+        )
+
+        # Check if all child tasks are marked as 'Done'
+        if all(task["status"] == "Done" for task in child_tasks):
+            frappe.db.set_value("GP Task", parent_task_name, "status", "Done")
+            frappe.db.set_value("GP Task", parent_task_name, "is_completed", 1)
+            frappe.msgprint(_("Parent task {0} marked as Done.").format(parent_task_name))
+        else:
+            frappe.db.set_value("GP Task", parent_task_name, "status", "Todo")
+            frappe.db.set_value("GP Task", parent_task_name, "is_completed", 0)
+
 
     @frappe.whitelist()
     def track_visit(self):
