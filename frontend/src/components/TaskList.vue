@@ -158,16 +158,22 @@
               <div class="w-full">
                 <div class="flex min-w-0 items-start">
                   <div
-                    class="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium leading-4 text-gray-900" style="width:15%"
-                  >
+                    class="overflow-hidden text-ellipsis whitespace-nowrap text-base font-medium leading-4 text-gray-900"
+                    style="width: 15%;"
+                  > 
                     {{ d.title }}
                   </div>
-
                   <!-- progress bra start -->
-                  <div class="progress">
-                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
-                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:40%">
-                      40% Complete
+                  <div class="progress" v-if="showProgressBar">
+                    <div 
+                      class="progress-bar progress-bar-success progress-bar-striped" 
+                      role="progressbar"
+                      :aria-valuenow="d.completion_percent"
+                      aria-valuemin="0"
+                      aria-valuemax="100"
+                      :style="{ width: d.completion_percent + '%' }"
+                    >
+                      {{ d.completion_percent }}% Complete
                     </div>
                   </div>
                   <!-- progress bra ends -->
@@ -387,6 +393,9 @@ export default {
     tasks() {
       return this.$resources.tasks
     },
+    showProgressBar() {
+      return this.$route.path.includes('tasks');
+    },
     groupedTasksOld() {
       if (!this.groupByStatus) {
         return [
@@ -415,6 +424,8 @@ export default {
       const statuses = ['In Progress', 'Todo', 'Backlog', 'Done', 'Canceled'];
       const groupedTasks = [];
       const allGroupTasks = {}; // Store all group tasks globally across statuses
+      const taskMapByParent = {}; // **NEW: Map parent task IDs to their child tasks**
+
 
       // Preprocess all group tasks
       this.tasks.data.forEach(task => {
@@ -423,6 +434,17 @@ export default {
             id: task.name,
             title: task.title
           };
+        }
+      });
+
+
+      // **NEW: Build a mapping of parent_task to its child tasks**
+      this.tasks.data.forEach(task => {
+        if (task.parent_task) {
+          if (!taskMapByParent[task.parent_task]) {
+            taskMapByParent[task.parent_task] = [];
+          }
+          taskMapByParent[task.parent_task].push(task);
         }
       });
 
@@ -439,6 +461,8 @@ export default {
             // Initialize the group task
             groupedByParent[task.name] = groupedByParent[task.name] || {
               title: task.title,
+              id: task.name,
+              completion_percent: 0.0,
               tasks: []
             };
           }
@@ -452,6 +476,8 @@ export default {
             // Initialize the group task and add it as a parent task
             groupedByParent[task.name] = groupedByParent[task.name] || {
               title: task.title, // Use the group's own title
+              id: task.name,
+              completion_percent: 0.0,
               tasks: [],
             };
           }
@@ -466,6 +492,8 @@ export default {
               // Initialize the parent task group if not already present
               groupedByParent[parentTaskId] = {
                 title: parentGroup?.title || 'Unknown Parent',
+                id: parentGroup?.id || parentTaskId,
+                completion_percent: 0.0,
                 tasks: [],
               };
             }
@@ -480,6 +508,24 @@ export default {
             nonGroupTasks.push(task);
           }
         });
+
+
+        // **NEW: Calculate completion_percent for all groups in the status**
+        Object.keys(allGroupTasks).forEach(parentId => {
+          const childTasks = taskMapByParent[parentId] || []; // Get all child tasks for this group
+          const totalTasks = childTasks.length; // Total number of child tasks
+          const completedTasks = childTasks.filter(task => task.status == 'Done').length; // Tasks with 'Done' status
+          const completionPercent = totalTasks > 0 
+            ? Math.round((completedTasks / totalTasks) * 100) 
+            : 0;
+
+          // Update the groupedByParent with the completion percent
+          if (groupedByParent[parentId]) {
+            groupedByParent[parentId].completion_percent = completionPercent;
+            //groupedByParent[parentId].tasks = childTasks; // Attach the child tasks
+          }
+        });
+
 
         // Add the status group
         groupedTasks.push({
