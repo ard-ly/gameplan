@@ -36,8 +36,7 @@
    "fieldname": "content",
    "fieldtype": "Text Editor",
    "in_list_view": 1,
-   "label": "Content",
-   "read_only": 1
+   "label": "Content"
   },
   {
    "fieldname": "status",
@@ -119,7 +118,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-06 12:11:11.919002",
+ "modified": "2025-02-03 14:02:46.842742",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Discussion",
