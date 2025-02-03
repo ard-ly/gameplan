@@ -59,7 +59,7 @@ class GameplanSearch(Search):
 			id = f"GP Discussion:{doc.name}"
 			fields = {
 				"title": doc.title,
-				"content": html2text(doc.content),
+				"content": html2text(doc.content or ""),
 				"modified": doc.modified,
 				"team": doc.team,
 				"project": doc.project,
@@ -72,7 +72,7 @@ class GameplanSearch(Search):
 			id = f"GP Task:{doc.name}"
 			fields = {
 				"title": doc.title,
-				"content": html2text(doc.description),
+				"content": html2text(doc.description or ""),
 				"modified": doc.modified,
 				"team": doc.team,
 				"project": doc.project,
@@ -85,7 +85,7 @@ class GameplanSearch(Search):
 			id = f"GP Page:{doc.name}"
 			fields = {
 				"title": doc.title,
-				"content": html2text(doc.content),
+				"content": html2text(doc.content or ""),
 				"modified": doc.modified,
 				"team": doc.team,
 				"project": doc.project,
@@ -100,7 +100,7 @@ class GameplanSearch(Search):
 			project = frappe.db.get_value(doc.reference_doctype, doc.reference_name, "project", cache=True)
 
 			fields = {
-				"content": html2text(doc.content),
+				"content": html2text(doc.content or ""),
 				"modified": doc.modified,
 				"team": team,
 				"project": project,
