@@ -69,13 +69,14 @@
   {
    "fieldname": "reactions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Reactions",
    "options": "GP Reaction"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-06 15:18:45.315072",
+ "modified": "2025-02-03 14:19:00.626800",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Poll",
