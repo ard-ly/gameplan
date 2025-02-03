@@ -53,6 +53,7 @@
   {
    "fieldname": "reactions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Reactions",
    "options": "GP Reaction"
   },
@@ -118,7 +119,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-03 14:02:46.842742",
+ "modified": "2025-02-03 14:18:02.690140",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Discussion",

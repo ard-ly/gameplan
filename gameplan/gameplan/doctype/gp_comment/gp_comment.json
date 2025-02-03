@@ -35,6 +35,7 @@
   {
    "fieldname": "reactions",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Reactions",
    "options": "GP Reaction"
   },
@@ -46,7 +47,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-06 15:18:03.751679",
+ "modified": "2025-02-03 14:17:24.018239",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Comment",
