@@ -8,13 +8,13 @@
  "engine": "InnoDB",
  "field_order": [
   "title",
+  "discussion",
   "options",
   "multiple_answers",
   "anonymous",
   "votes",
   "total_votes",
   "stopped_at",
-  "discussion",
   "reactions"
  ],
  "fields": [
@@ -48,7 +48,8 @@
    "fieldname": "discussion",
    "fieldtype": "Link",
    "label": "Discussion",
-   "options": "GP Discussion"
+   "options": "GP Discussion",
+   "reqd": 1
   },
   {
    "fieldname": "votes",
@@ -76,7 +77,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-02-03 14:19:00.626800",
+ "modified": "2025-02-03 14:21:51.425613",
  "modified_by": "Administrator",
  "module": "Gameplan",
  "name": "GP Poll",
